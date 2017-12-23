@@ -1,0 +1,21 @@
+{
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true,
+            "modules": true
+        }
+    },
+    "parser": "babel-eslint",
+    "globals": {
+        "window": true,
+        "document": true,
+        "module": true,
+        "console": true,
+        "require": true,
+        "__dirname": true,
+    }
+}
