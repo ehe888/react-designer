@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { connect } from 'react-redux'
 import MainContainer from './MainContainer'
-import EditorContainer from './EditorContainer'
+import SourceCodeEditorContainer from './SourceCodeEditorContainer'
 import EditorToggleButton from './EditorToggleButton'
 
 class RootContainer extends Component {
@@ -49,7 +49,8 @@ class RootContainer extends Component {
         return (
             <div>
                 <MainContainer windowWidth={windowWidth} windowHeight={windowHeight} />
-                <EditorContainer windowWidth={windowWidth} windowHeight={windowHeight} />
+                <SourceCodeEditorContainer
+                    editing={this.props.editing} height={windowHeight}/>
                 <EditorToggleButton />
             </div>
         )
@@ -59,7 +60,7 @@ class RootContainer extends Component {
 
 const mapStateToProps = state => {
     return {
-        editing: state.rootContainer.editing
+        editing: state.root.editing
     }
 }
 

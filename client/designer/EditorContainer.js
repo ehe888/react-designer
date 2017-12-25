@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 import styles from './EditorContainerStyles'
 
+
 class EditorContainer extends Component {
     static propTypes = {
         editing: PropTypes.bool.isRequired,
@@ -24,7 +25,7 @@ class EditorContainer extends Component {
 
 const mapStateToProps = state => {
     return {
-        editing: state.rootContainer.editing
+        editing: state.root.editing
     }
 }
 

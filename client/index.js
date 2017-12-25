@@ -5,7 +5,7 @@ import { AppContainer } from "react-hot-loader"
 import RootContainer from './designer/RootContainer'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
-import designerReducers from './designer/Reducers' 
+import designerReducers from './designer/reducers' 
 
 require('normalize.css')
 require('./assets/css/global.css')

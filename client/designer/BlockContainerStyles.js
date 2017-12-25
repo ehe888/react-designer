@@ -4,6 +4,9 @@ export default {
         position: 'relative',
         border: 0,
     },
+    absolutePosition: {
+        positing: 'absolute',
+    },
     highlightMask: {
         position: 'absolute',
         top: 0,

@@ -1,11 +1,10 @@
 // Reducers.js
 // All utility reducers
-import { combineReducers } from 'redux'
 import _ from 'lodash'
-import { TOGGLE_EDITING } from './EditorToggleButtonActions'
+import { TOGGLE_EDITING } from '../EditorToggleButtonActions'
 
 const initialState = { editing: true }
-function toggleEditingReducer(state = initialState, action){
+function rootReducer(state = initialState, action){
     switch(action.type){
         case TOGGLE_EDITING:
             return _.merge({}, state, { editing: !state.editing })
@@ -15,8 +14,4 @@ function toggleEditingReducer(state = initialState, action){
     }
 }
 
-const reducers = combineReducers({
-    rootContainer: toggleEditingReducer
-})
-
-export default reducers
+export default rootReducer

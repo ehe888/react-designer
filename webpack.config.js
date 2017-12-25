@@ -7,7 +7,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
     entry: {
-        app: [ 'react-hot-loader/patch', 'webpack-hot-middleware/client', './client/index.js' ],
+        app: [ 'react-hot-loader/patch', 'webpack-hot-middleware/client?path=http://localhost:3000/client/__webpack_hmr', './client/index.js' ],
         vendor: [ 'lodash', 'react', 'react-dom']
     },
     externals: {
@@ -25,7 +25,7 @@ module.exports = {
             }
         ]
     },
-    devtool: 'eval',
+    devtool: 'cheap-module-eval-source-map',
     devServer: {
         contentBase: './dist',
         hot: true
@@ -46,7 +46,9 @@ module.exports = {
             mobile: true,
             lang: 'zh-CN',
             links: [
-                'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/codemirror.min.css'
+                'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/codemirror.min.css',
+                'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/theme/midnight.min.css',
+                'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'
             ],
             scripts: [
                 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/codemirror.min.js',
@@ -73,7 +75,7 @@ module.exports = {
     output: {
         filename: '[name].[hash].js',
         path: path.resolve(__dirname, 'dist'),
-        publicPath: '/'
+        publicPath: '/client/', // DON'T FORGET the ending slash
     },
 };
 

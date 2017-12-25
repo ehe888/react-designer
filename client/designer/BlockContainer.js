@@ -54,7 +54,7 @@ class BlockContainer extends Component {
 
 const mapStateToProps = state => {
     return {
-        editing: state.rootContainer.editing
+        editing: state.root.editing
     }
 }
 

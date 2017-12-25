@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import styles from './MainContainerStyles'
 import _ from 'lodash'
 import BlockContainer from './BlockContainer'
-import CodeEditor from '../components/code_editor'
 
 const LAYOUT_MODE_FULLSCREEN = 'fullScreen'
 const LAYOUT_MODE_DEFAULT = 'default'
@@ -33,7 +32,7 @@ export default class MainContainer extends Component {
         return (
             <div style={_.merge({}, styles.main, this.isFullScreenMode() && styles.fullScreen)}>
                 <BlockContainer>
-                    <CodeEditor />
+                    <h1>{"This is a great React APP"}</h1>
                 </BlockContainer>
             </div>
         )
