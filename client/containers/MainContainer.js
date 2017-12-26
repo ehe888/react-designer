@@ -6,7 +6,6 @@ import styles from './MainContainerStyles'
 import _ from 'lodash'
 import HelloWorldComponent from '../components/HelloWorldComponent'
 
-
 export const LAYOUT_MODE_FULLSCREEN = 'fullScreen'
 export const LAYOUT_MODE_DEFAULT = 'default'
 
@@ -29,9 +28,21 @@ export default class MainContainer extends Component {
         return this.props.layoutMode === LAYOUT_MODE_FULLSCREEN
     }
 
+    handleMouseOver = (e) => {
+        e.stopPropagation()
+        const comp = window.FindReact(e.target)
+        console.log(comp)
+        window.parent.postMessage(`${comp._reactInternalInstance._currentElement.type.name} on hover`, "*")    //TODO: change targetOrigin form * to the same origin
+    }
+    handleMouseLeave = (e) => {
+        
+    }
+
     render(){
         return (
-            <div style={_.merge({}, styles.main, this.isFullScreenMode() && styles.fullScreen)}>
+            <div style={_.merge({}, styles.main, this.isFullScreenMode() && styles.fullScreen)}
+                onMouseOver={this.handleMouseOver} 
+                onMouseLeave={this.handleMouseLeave}>
                 <HelloWorldComponent />
             </div>
         )

@@ -16,6 +16,6 @@
         "module": true,
         "console": true,
         "require": true,
-        "__dirname": true,
+        "__dirname": true
     }
 }

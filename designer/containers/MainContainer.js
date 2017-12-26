@@ -4,8 +4,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styles from './MainContainerStyles'
 import _ from 'lodash'
-import { default as EnhancedBlockContainer } from './BlockContainer'
-import shortid from 'shortid'
 
 
 const LAYOUT_MODE_FULLSCREEN = 'fullScreen'

@@ -73,7 +73,7 @@ class TabButton extends React.Component {
 const demoFiles = [{
                     name: 'Untitled-1',
                     path: '',
-                    code: `// Code`
+                    code: `// Source Code`
                 }]
 
 class TabHeaderComponent extends React.Component {
@@ -146,7 +146,7 @@ class SourceCodeEditorContainer extends React.Component {
     constructor() {
         super();
         this.state = {
-          code: "// code"
+          code: "// Source code"
         };
     }
 

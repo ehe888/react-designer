@@ -47,11 +47,17 @@ class RootContainer extends Component {
         })
     }
 
+    handleMessage = (e) => {
+        console.log(e)
+    }
+
     componentDidMount(){
         window.addEventListener('resize', _.debounce(this.handleResize, 50))
+        window.addEventListener('message', this.handleMessage)
     }
     componentWillUnmount(){
         window.removeEventListener('resize', this.handleResize)
+        window.removeEventListener('message', this.handleMessage)
     }
 
     render(){
@@ -62,7 +68,7 @@ class RootContainer extends Component {
 
         return (
             <div>
-                <MainContainer>
+                <MainContainer widthWidth={windowWidth} windowHeight={windowHeight}>
                     <Iframe src="/client" width={"100%"} height={"100%"} /> 
                 </MainContainer>
                 <SourceCodeEditorContainer

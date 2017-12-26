@@ -10,9 +10,7 @@ const webpackConfig = require("../webpack.designer.dev.config.js")
 const compiler = webpack(webpackConfig)
 
 designerApp.use(webpackDevMiddleware(compiler, {
-    publicPath: "/",//webpackConfig.output.publicPath,
-    hot: true,
-    contentBase: "./dist/designer"
+    publicPath: "/", //default to be webpackConfig.output.publicPath
 }))
 
 designerApp.use(require("webpack-hot-middleware")(compiler))
@@ -22,10 +20,9 @@ const customWebpackConfig = require("../webpack.client.dev.config.js")
 const customCompiler = webpack(customWebpackConfig)
 
 clientApp.use(webpackDevMiddleware(customCompiler, {
-    publicPath: "/",//webpackConfig.output.publicPath,
-    hot: true,
-    contentBase: "./dist/client"
+    publicPath: "/",
 }))
+
 clientApp.use(require("webpack-hot-middleware")(customCompiler))
 
 
