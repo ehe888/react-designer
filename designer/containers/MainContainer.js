@@ -4,7 +4,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styles from './MainContainerStyles'
 import _ from 'lodash'
-import BlockContainer from './BlockContainer'
+import { default as EnhancedBlockContainer } from './BlockContainer'
+import shortid from 'shortid'
+
 
 const LAYOUT_MODE_FULLSCREEN = 'fullScreen'
 const LAYOUT_MODE_DEFAULT = 'default'
@@ -31,9 +33,7 @@ export default class MainContainer extends Component {
     render(){
         return (
             <div style={_.merge({}, styles.main, this.isFullScreenMode() && styles.fullScreen)}>
-                <BlockContainer>
-                    <h1>{"This is a great React APP"}</h1>
-                </BlockContainer>
+                {this.props.children}
             </div>
         )
     }

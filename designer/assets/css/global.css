@@ -1,0 +1,10 @@
+html, body {
+    /* global configurations */
+}
+#app {
+    /* background-color: green; */
+    pointer-events: 'none';
+}
+* {
+    box-sizing: border-box;
+}

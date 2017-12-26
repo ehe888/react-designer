@@ -1,7 +1,7 @@
 // Reducers.js
 // All utility reducers
 import _ from 'lodash'
-import { START_SYNCING, COMPLETE_SYNCING, SHOW_SOURCE_CODE } from '../SourceCodeEditorContainerActions'
+import { START_SYNCING, COMPLETE_SYNCING, SHOW_SOURCE_CODE } from '../containers/SourceCodeEditorContainerActions'
 
 const initialState = { 
     syncing: false,

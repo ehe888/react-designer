@@ -71,25 +71,10 @@ class TabButton extends React.Component {
 }
 
 const demoFiles = [{
-                        name: 'test.js',
-                        path: './test.js',
-                        code: `var js = "123"\n function f(){\n console.log(js) }
-                        const a=1`
-                    },
-                    {
-                        name: 'Container.js',
-                        path: './Container.js',
-                        code: `
-function f(){
-    console.log(js) 
-}
-const a=1`
-                    },
-                    {
-                        name: 'Component.js',
-                        path: './Component.js',
-                        code: `class XComponent extends React.Component`
-                    }]
+                    name: 'Untitled-1',
+                    path: '',
+                    code: `// Code`
+                }]
 
 class TabHeaderComponent extends React.Component {
     state = {

@@ -7,7 +7,6 @@ import { connect } from 'react-redux'
 import styles from './BlockContainerStyles'
 
 
-
 class BlockContainer extends Component {
     state = { 
         isHover: false
@@ -17,6 +16,7 @@ class BlockContainer extends Component {
         editing: PropTypes.bool.isRequired,
         // Only a single child can ben passed to this block
         children: PropTypes.element, 
+        domId: PropTypes.string,
     }
 
     // Mark: custome methods
@@ -31,6 +31,10 @@ class BlockContainer extends Component {
     handleMouseLeave = () => {
         this.setState({ isHover: false })
     }
+    handleMaskClick = (e) => {
+        console.log(FindReact(e.target.parentElement))
+        
+    }
 
     render(){
         const { editing } = this.props
@@ -39,12 +43,13 @@ class BlockContainer extends Component {
         } = this.state
 
         return (
-            <div style={styles.main}>
+            <div id={this.props.domId} style={styles.main}>
                 {this.props.children}
                 <div style={_.merge({}, styles.highlightMask, !editing && styles.highlightMaskDisabled,
                         editing && isHover && styles.highlightMaskOnHover)}
                     onMouseOver={this.handleMouseOver} 
-                    onMouseLeave={this.handleMouseLeave}>
+                    onMouseLeave={this.handleMouseLeave}
+                    onClick={this.handleMaskClick}>
                 </div>
             </div>
         )

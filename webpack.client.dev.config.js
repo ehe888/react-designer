@@ -27,11 +27,11 @@ module.exports = {
     },
     devtool: 'cheap-module-eval-source-map',
     devServer: {
-        contentBase: './dist',
+        contentBase: './dist/client',
         hot: true
     },
     plugins: [
-        new CleanWebpackPlugin(['dist']),
+        new CleanWebpackPlugin(['dist/client']),
         new HtmlWebpackPlugin({
             title: 'Output Management',
             inject: false,
@@ -74,7 +74,7 @@ module.exports = {
     ],
     output: {
         filename: '[name].[hash].js',
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'dist/client'),
         publicPath: '/client/', // DON'T FORGET the ending slash
     },
 };

@@ -1,7 +1,7 @@
 // Reducers.js
 // All utility reducers
 import _ from 'lodash'
-import { TOGGLE_EDITING } from '../EditorToggleButtonActions'
+import { TOGGLE_EDITING } from '../containers/EditorToggleButtonActions'
 
 const initialState = { editing: true }
 function rootReducer(state = initialState, action){

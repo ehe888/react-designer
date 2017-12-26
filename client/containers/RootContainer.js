@@ -4,12 +4,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import { connect } from 'react-redux'
-import MainContainer from './MainContainer'
-import SourceCodeEditorContainer from './SourceCodeEditorContainer'
-import EditorToggleButton from './EditorToggleButton'
+import MainContainer, { LAYOUT_MODE_FULLSCREEN } from './MainContainer'
 
-class RootContainer extends Component {
+export default class RootContainer extends Component {
     state = { 
         windowWidth: window.innerWidth,
         windowHeight: window.innerHeight
@@ -48,22 +45,12 @@ class RootContainer extends Component {
 
         return (
             <div>
-                <MainContainer windowWidth={windowWidth} windowHeight={windowHeight} />
-                <SourceCodeEditorContainer
-                    editing={this.props.editing} height={windowHeight}/>
-                <EditorToggleButton />
+                <MainContainer 
+                    windowWidth={windowWidth} 
+                    windowHeight={windowHeight} 
+                    layoutMode={LAYOUT_MODE_FULLSCREEN} />
             </div>
         )
 
     }   
 }
-
-const mapStateToProps = state => {
-    return {
-        editing: state.root.editing
-    }
-}
-
-const StatefulRootContainer = connect(mapStateToProps)(RootContainer)
-
-export default StatefulRootContainer
