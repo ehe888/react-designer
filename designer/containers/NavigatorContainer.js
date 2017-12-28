@@ -65,27 +65,35 @@ class NavigatorItem extends React.Component {
     }
 }
 
-const naviItems = [
+const NAVI_ITEMS = [
     {
         name: 'files',
         icon: 'files-o',
-        link: ''
+        component: <h3>Source files</h3>
     },
     {
         name: 'dependencies',
         icon: 'cogs',
-        link: ''
+        component: <h3>Dependencies</h3>
     },
     {
         name: 'server',
         icon: 'server',
-        link: ''
+        component: <h3>Server</h3>
     }
 ]
 
 export default class NavigatorContainer extends React.Component {
     state = {
         activeItemIndex: 0
+    }
+
+    static propTypes = {
+        items: PropTypes.array.isRequired
+    }
+
+    static defaultProps = {
+        items: NAVI_ITEMS
     }
 
     itemClickCallback = (id) => {
@@ -95,7 +103,7 @@ export default class NavigatorContainer extends React.Component {
     render() {
         const { activeItemIndex } = this.state
 
-        const items = naviItems.map((item, index) => {
+        const items = this.props.items.map((item, index) => {
             return <NavigatorItem key={item.name} 
                         id={index} icon={item.icon}
                         isActive={ activeItemIndex === index }
@@ -104,6 +112,7 @@ export default class NavigatorContainer extends React.Component {
 
         return (
             <div style={styles.main}>
+                {this.props.items[activeItemIndex].component}
                 <ul style={styles.naviList}>
                     {items}
                 </ul>

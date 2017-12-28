@@ -12,9 +12,14 @@ export default {
         backgroundColor: 'rgb(28, 28, 29)',
         /* reset pointerEvents back to normal, 
            because the parent container is set to be transparent to event */
-        pointerEvents: 'auto',    
+        pointerEvents: 'auto',   
+        paddingLeft: NAVI_LIST_ICON_HEIGHT,
+        color: 'white',
     },
     naviList: {
+        position: 'absolute',
+        left: 0,
+        top: 0,
         listStyleType: 'none',
         margin: 0,
         padding: 0,
