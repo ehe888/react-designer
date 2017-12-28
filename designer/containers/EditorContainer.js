@@ -18,6 +18,7 @@ class EditorContainer extends Component {
         const { editing } = this.props
         return (
             <div style={ _.merge({}, styles.main, !editing && styles.previewMode) }>
+                {this.props.children}
             </div>
         )
     }

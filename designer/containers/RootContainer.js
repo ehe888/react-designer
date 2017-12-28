@@ -9,6 +9,8 @@ import { connect } from 'react-redux'
 import SourceCodeEditorContainer from './SourceCodeEditorContainer'
 import EditorToggleButton from './EditorToggleButton'
 import MainContainer from './MainContainer'
+import NavigatorContainer from './NavigatorContainer'
+import EditorContainer from './EditorContainer'
 
 const Iframe = createReactClass({     
     render: function() {
@@ -71,8 +73,11 @@ class RootContainer extends Component {
                 <MainContainer widthWidth={windowWidth} windowHeight={windowHeight}>
                     <Iframe src="/client" width={"100%"} height={"100%"} /> 
                 </MainContainer>
-                <SourceCodeEditorContainer
-                    editing={this.props.editing} height={windowHeight}/>
+                <EditorContainer>
+                    <NavigatorContainer />
+                    <SourceCodeEditorContainer
+                        editing={this.props.editing} height={windowHeight}/>
+                </EditorContainer>
                 <EditorToggleButton />
             </div>
         )

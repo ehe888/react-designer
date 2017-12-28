@@ -188,8 +188,7 @@ class SourceCodeEditorContainer extends React.Component {
 
         return (
             <div style={ _.merge({ width: `${width}px`, height: `${height}px` }, 
-                            styles.main,
-                            !this.props.editing && { opacity: 0, pointerEvents: 'none' }) }>
+                            styles.main) }>
                 <TabHeaderComponent tabSelectCallback={this.tabSelectCallback}/>
                 { this.props.sourceFiles.length > 0 &&
                     <CodeMirror ref={this.refToCodeMirror} 
