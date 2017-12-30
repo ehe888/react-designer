@@ -121,7 +121,7 @@ class TabHeaderComponent extends React.Component {
     }
 }
 
-const SourceCodeEditorTabHeight = 25
+const SourceCodeEditorTabHeight = 24
 class SourceCodeEditorContainer extends React.Component {
 
     static propTypes = {

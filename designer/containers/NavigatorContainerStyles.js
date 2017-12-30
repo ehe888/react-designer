@@ -15,6 +15,7 @@ export default {
         pointerEvents: 'auto',   
         paddingLeft: NAVI_LIST_ICON_HEIGHT,
         color: 'white',
+        opacity: 0.9
     },
     naviList: {
         position: 'absolute',

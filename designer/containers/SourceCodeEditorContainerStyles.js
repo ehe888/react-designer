@@ -5,6 +5,8 @@ export default {
         overflow: 'hidden',
         right: 0,
         top: 0,
+        pointerEvents: 'auto', 
+        opacity: 0.9
     },
     /* Style the tab */
     tab: {

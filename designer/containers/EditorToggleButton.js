@@ -39,6 +39,6 @@ const mapDispatchToProps = dispatch => {
     return {
         toggleEditingAction: () => { dispatch(toggleEditing()); dispatch(startSyncing()) }
     }
-  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditorToggleButton)

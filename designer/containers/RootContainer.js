@@ -68,14 +68,16 @@ class RootContainer extends Component {
             windowHeight
         } = this.state
 
+        const defaultNaviWidth = 280
+        const defaultSourceEditorWidth = windowWidth - 280
         return (
             <div>
                 <MainContainer widthWidth={windowWidth} windowHeight={windowHeight}>
                     <Iframe src="/client" width={"100%"} height={"100%"} /> 
                 </MainContainer>
                 <EditorContainer>
-                    <NavigatorContainer />
-                    <SourceCodeEditorContainer
+                    <NavigatorContainer width={defaultNaviWidth} />
+                    <SourceCodeEditorContainer width={defaultSourceEditorWidth}
                         editing={this.props.editing} height={windowHeight}/>
                 </EditorContainer>
                 <EditorToggleButton />

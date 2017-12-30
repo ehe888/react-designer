@@ -4,6 +4,7 @@ import React from 'react'
 import _ from 'lodash'
 import PropTypes from 'prop-types'
 import FontAwesome from 'react-fontawesome'
+import TreeContainer from './TreeContainer'
 import styles from './NavigatorContainerStyles'
 
 class NavigatorItem extends React.Component {
@@ -69,7 +70,7 @@ const NAVI_ITEMS = [
     {
         name: 'files',
         icon: 'files-o',
-        component: <h3>Source files</h3>
+        component: <TreeContainer />
     },
     {
         name: 'dependencies',
@@ -89,11 +90,14 @@ export default class NavigatorContainer extends React.Component {
     }
 
     static propTypes = {
-        items: PropTypes.array.isRequired
+        items: PropTypes.array.isRequired,
+        width: PropTypes.number,
+        height: PropTypes.number,
     }
 
     static defaultProps = {
-        items: NAVI_ITEMS
+        items: NAVI_ITEMS,
+        width: 320
     }
 
     itemClickCallback = (id) => {
@@ -103,6 +107,8 @@ export default class NavigatorContainer extends React.Component {
     render() {
         const { activeItemIndex } = this.state
 
+        const { width } = this.props
+
         const items = this.props.items.map((item, index) => {
             return <NavigatorItem key={item.name} 
                         id={index} icon={item.icon}
@@ -111,7 +117,7 @@ export default class NavigatorContainer extends React.Component {
         })
 
         return (
-            <div style={styles.main}>
+            <div style={_.merge({}, styles.main, { width: `${width}px` })}>
                 {this.props.items[activeItemIndex].component}
                 <ul style={styles.naviList}>
                     {items}
