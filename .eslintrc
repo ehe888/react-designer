@@ -1,7 +1,15 @@
 {
+    "env": {
+        "browser": true,
+        "node": true,
+        "es6": true 
+    },
+    "plugins": [ "fetch", "promise" ],
     "extends": [
         "eslint:recommended",
-        "plugin:react/recommended"
+        "plugin:react/recommended",
+        "plugin:fetch/recommended",
+        "plugin:promise/recommended"
     ],
     "parserOptions": {
         "ecmaFeatures": {

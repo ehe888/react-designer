@@ -11,7 +11,8 @@ export default {
         outline: 'none', 
         padding: 0, 
         background: 'transparent', 
-        color: 'white' 
+        color: 'white',
+        cursor: 'pointer',
     },
     treeChildrenList: {
         listStyleType: 'none',
@@ -21,7 +22,6 @@ export default {
     treeNodeIndicator: {
         color: 'white',
         cursor: 'pointer',
-        marginLeft: '0.5em',
-        marginRight: '0.5em',
+        width: '20px'
     }
 }

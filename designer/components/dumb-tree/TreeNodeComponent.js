@@ -10,11 +10,12 @@ export default class TreeNodeComponent extends React.Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
         expandOrCollapseCallback: PropTypes.func,
-        data: PropTypes.object.isRequired
+        data: PropTypes.object.isRequired,
+        isFetching: PropTypes.bool.isRequired,
     }
 
     static defaultProps = {
-        
+        isFetching: false
     }
 
     handleExpandOrCollapse = (e) => {
@@ -31,7 +32,7 @@ export default class TreeNodeComponent extends React.Component {
 
     getIconName = () => {
         if(this.props.data.isLeaf){
-            return "file-code-o"
+            return ""
         }else{
             return this.state.collapsed ? "angle-right" : "angle-down"
         }
@@ -46,7 +47,7 @@ export default class TreeNodeComponent extends React.Component {
             data
         } = this.props
 
-        const childNodes = (!collapsed &&  !data.isLeaf) ? data.children.map((node) => {
+        const childNodes = (!collapsed && !data.isLeaf && data.children) ? data.children.map((node) => {
                                                 return (<li key={node.id} >
                                                             <TreeNodeComponent id={node.id} 
                                                                 expandOrCollapseCallback={this.props.expandOrCollapseCallback}
@@ -59,6 +60,9 @@ export default class TreeNodeComponent extends React.Component {
             <div style={styles.main}>
                 <button style={styles.title}>
                     <FontAwesome name={this.getIconName()} 
+                        onClick={this.handleExpandOrCollapse}
+                        style={styles.treeNodeIndicator} />
+                    <FontAwesome name={data.isLeaf ? "file-code-o" : "folder-o" } 
                         onClick={this.handleExpandOrCollapse}
                         style={styles.treeNodeIndicator} />
                     {data.name}

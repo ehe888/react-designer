@@ -1,4 +1,4 @@
-/* code_editor/index.js */
+// SourceCodeEditorContainer.js
 
 import React from 'react'
 import PropTypes from 'prop-types'
@@ -6,69 +6,7 @@ import CodeMirror from 'react-codemirror'
 import _ from 'lodash'
 import { connect } from 'react-redux'
 import styles from './SourceCodeEditorContainerStyles'
-import FontAwesome from 'react-fontawesome'
-
-class TabButton extends React.Component {
-    state = { 
-        isHover: false
-    }
-
-    static propTypes = {
-        title: PropTypes.string.isRequired,
-        handleTabButtonClose: PropTypes.func.isRequired,
-        handleTabButtonClick: PropTypes.func.isRequired,
-        active: PropTypes.bool.isRequired,
-        id: PropTypes.number.isRequired,
-    }
-
-    static defaultProps = {
-        title: "  ",
-        active: false,
-        handleTabButtonClick(e){
-            console.log('click tab button: ', e)
-        },
-        handleTabButtonClose(e){
-            console.log('click tab close: ', e)
-        }
-    }
-
-    // Mark: custome methods
-    getStyle = () => {
-        return _.merge({}, styles.tabButton, 
-                this.state.isHover && styles.tabBbuttonOnHover,
-                this.props.active && styles.tabButtonOnActive)
-    }
-
-    handleMouseOver = (e) => {
-        e.stopPropagation()
-        this.setState({ isHover: true })
-    }
-    handleMouseLeave = () => {
-        this.setState({ isHover: false })
-    }
-
-    handleCloseClick = (e) => {
-        this.props.handleTabButtonClose(e)
-    }
-
-    handleClick = (e) => {
-        this.props.handleTabButtonClick(e, this.props.id)
-    }
-
-    render() {
-        return (
-            <button style={this.getStyle()}
-                onClick={this.handleClick}
-                onMouseOver={this.handleMouseOver} 
-                onMouseLeave={this.handleMouseLeave}>
-                {this.props.title + "  "}
-                <span onClick={this.handleCloseClick}>
-                    <FontAwesome name='close'/>
-                </span>
-            </button>
-        )
-    }
-}
+import TabHeaderComponent from '../components/dumb-tab'
 
 const demoFiles = [{
                     name: 'Untitled-1',
@@ -76,53 +14,14 @@ const demoFiles = [{
                     code: `// Source Code`
                 }]
 
-class TabHeaderComponent extends React.Component {
-    state = {
-        activeId: 0
-    }
-
-    static propTypes = {
-        items: PropTypes.array.isRequired,
-        /* Dump component expose callback to smart container, method name ends with Callback */
-        tabCloseCallback: PropTypes.func.isRequired,
-        tabSelectCallback: PropTypes.func.isRequired,
-    }
-
-    static defaultProps = {
-        items: demoFiles,
-        tabSelectCallback(id, prevId){
-            console.log('tab select : ', id, ' prevId: ', prevId)
-        },
-        tabCloseCallback(id){
-            console.log('tab close: ', id)
-        }
-    }
-
-    handleTabButtonClick = (e, id) => {
-        // set active tab index
-        const prevId = this.state.activeId
-        this.setState({ activeId: id })
-        this.props.tabSelectCallback(id, prevId)
-    } 
-
-    render() {
-        const { activeId } = this.state
-        const { items } = this.props
-        const tabItems = items.map((file, index) => {
-            return (<TabButton key={index} id={index} title={file.name} 
-                        active={index === activeId}
-                        handleTabButtonClick={this.handleTabButtonClick}/>)
-        })
-        return (
-            <div style={styles.tab}>
-                {tabItems}
-            </div>
-        )
-    }
-}
 
 const SourceCodeEditorTabHeight = 24
 class SourceCodeEditorContainer extends React.Component {
+    state = {
+        code: "// Source code",
+        minimized: false,
+        activeId: 0,
+    }
 
     static propTypes = {
         options: PropTypes.object,
@@ -143,13 +42,6 @@ class SourceCodeEditorContainer extends React.Component {
         sourceFiles: demoFiles,
     }
 
-    constructor() {
-        super();
-        this.state = {
-          code: "// Source code"
-        };
-    }
-
     componentDidMount(){
         const { width, height } = this.props;
         if(this.codeMirror){
@@ -168,28 +60,48 @@ class SourceCodeEditorContainer extends React.Component {
     }
 
     tabSelectCallback = (id, prevId) => {
-        //show source code of active file, do some cleanup if necessary to prev selected file
-        if(this.codeMirror){
-            this.codeMirror.setValue(demoFiles[id].code)
+        if( id !== this.state.activeId ){
+            this.setState(() => {
+                return { activeId: id }
+            })
+        }
+    }
+
+    minimizeCallback = (minimize) => {
+        const { minimized } = this.state
+        if(minimized === minimize){
+            //Already in the state, ignore this request
+            
+        }else{
+            this.setState((prevState) => {
+                return { minimized: !prevState.minimized }
+            })
         }
     }
 
     render() {
-        const { theme, width, height } = this.props
+        const { theme, width, height, sourceFiles } = this.props
+        const { minimized, activeId } = this.state
         const options = {
             lineNumbers: true,
             mode: "javascript",
             theme: theme
         };
-
+        const containerHeight = minimized ? SourceCodeEditorTabHeight : height
+        const containerWidth = minimized ? 64 : width
+        
         if(this.codeMirror){
             this.codeMirror.setSize(width, height-SourceCodeEditorTabHeight);
+            this.codeMirror.setValue(sourceFiles[activeId].code)
         }
 
         return (
-            <div style={ _.merge({ width: `${width}px`, height: `${height}px` }, 
-                            styles.main) }>
-                <TabHeaderComponent tabSelectCallback={this.tabSelectCallback}/>
+            <div style={ _.merge({}, styles.main, { width: `${containerWidth}px`, height: `${containerHeight}px` }) }>
+                <TabHeaderComponent 
+                    tabSelectCallback={this.tabSelectCallback}
+                    minimizeCallback={this.minimizeCallback}
+                    minimized={minimized}
+                    items={sourceFiles} />
                 { this.props.sourceFiles.length > 0 &&
                     <CodeMirror ref={this.refToCodeMirror} 
                         value={this.state.code} options={{...options, ...this.props.options}} />

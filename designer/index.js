@@ -1,11 +1,13 @@
-
+import 'regenerator-runtime/runtime'
 import React from "react"
 import ReactDOM from "react-dom"
 import { AppContainer } from "react-hot-loader"
 import RootContainer from './containers/RootContainer'
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import createSagaMiddleware from 'redux-saga'
 import designerReducers from './reducers' 
+import mySaga from './sagas'
 
 require('normalize.css')
 require('./assets/css/global.css')
@@ -26,9 +28,12 @@ window.FindReact = function(dom) {
     return null;
 };
 
+const sagaMiddleware = createSagaMiddleware()
 let store = createStore(designerReducers,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+    applyMiddleware(sagaMiddleware))
 
+sagaMiddleware.run(mySaga)
 
 const render = (Component) => {
     ReactDOM.render(
