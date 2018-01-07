@@ -5,6 +5,7 @@ export default {
         position: 'absolute',
         bottom: '20px',
         right: '20px',
+        zIndex: 999999999999999,
         backgroundColor: '#4CAF50',
         border: 'none',
         color: 'white',

@@ -10,11 +10,16 @@ const DESIGNER_PATH = "designer"
 module.exports = {
     entry: {
         app: [ 'react-hot-loader/patch', `webpack-hot-middleware/client?path=http://localhost:3000/${DESIGNER_PATH}/__webpack_hmr`, `./${DESIGNER_PATH}/index.js` ],
-        vendor: [ 'lodash', 'react', 'react-dom']
+        vendor: [ 'lodash', 'react', 'react-dom'],
     },
     externals: {
-        'codemirror': 'CodeMirror'
+        'codemirror': 'CodeMirror',
     },
+    // Try to hack ESLint for browser
+    // node: {
+    //     fs: 'empty',
+    //     module: "empty"
+    // },
     module: {
         rules: [
             { test: /\.(js|jsx)$/, use: ['babel-loader'], exclude: /node_modules/ },
@@ -50,11 +55,16 @@ module.exports = {
             links: [
                 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/codemirror.min.css',
                 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/theme/midnight.min.css',
+                'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/addon/lint/lint.min.css',
                 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'
             ],
             scripts: [
-                'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/codemirror.min.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/jshint/2.9.5/jshint.min.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/codemirror.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/addon/lint/lint.js',
                 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/mode/javascript/javascript.min.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/mode/xml/xml.min.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/mode/jsx/jsx.min.js',
             ]
         }),
 

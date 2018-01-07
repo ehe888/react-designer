@@ -33,6 +33,7 @@
     "babel-preset-stage-2": "6.24.1",
     "body-parser": "1.18.2",
     "codemirror": "5.30.0",
+    "codemirror-lint-eslint": "1.0.1",
     "cookie-parser": "1.4.3",
     "create-react-class": "15.6.2",
     "express": "4.15.4",

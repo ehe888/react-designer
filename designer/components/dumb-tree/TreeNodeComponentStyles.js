@@ -2,9 +2,14 @@
 
 export default {
     main: {
+        position: 'relative',
+        display: 'inline-block',
         fontSize: '13px', 
-        marginTop: '3px', 
-        marginBottom: '3px' 
+        paddingTop: '3px', 
+        paddingBottom: '3px',
+        overflow: 'auto',
+        height: '100%',
+        whiteSpace: 'nowrap'
     },
     title: { 
         border: 'none', 
@@ -13,6 +18,10 @@ export default {
         background: 'transparent', 
         color: 'white',
         cursor: 'pointer',
+    },
+    titleOnHover: {
+        backgroundColor: '#ddd',
+        color: '#0f192a'
     },
     treeChildrenList: {
         listStyleType: 'none',

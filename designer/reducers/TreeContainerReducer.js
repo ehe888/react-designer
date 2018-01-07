@@ -59,44 +59,4 @@ function reducer(state = initialState, action){
     }
 }
 
-// function reducer(state = initialState, action){
-//     switch(action.type){
-//         case EXPAND_NODE:
-//         {
-//             const path = action.value
-//             const { nodeData } = state
-//             if(!nodeData){
-//                 return _.merge({}, state, { nodeData: {
-//                         id: '/',
-//                         name: 'root',
-//                         path: '/',
-//                         isLeaf: false,
-//                         children: []
-//                     } 
-//                 })
-//             }else{
-//                 const find = traverseTree(nodeData, path)
-//                 if(find !== null){
-//                     find.children = [{
-//                         id: `${find.path}/path1`,
-//                         name: 'path1',
-//                         path: `${find.path}/path1`,
-//                         isLeaf: false,
-//                         children: []
-//                     },{
-//                         id: `${find.path}/path2`,
-//                         name: 'path2',
-//                         path: `${find.path}/path2`,
-//                         isLeaf: true
-//                     }]
-//                     return _.merge({}, state, { nodeData: nodeData })
-//                 }
-//             }
-//             return state
-//         }
-//         default:
-//             return state
-//     }
-// }
-
 export default reducer

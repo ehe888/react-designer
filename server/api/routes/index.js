@@ -4,7 +4,7 @@ const fs = require('fs')
 const path = require('path')
 
 
-router.get('/sources', (req, res) => {
+router.get('/directory', (req, res) => {
   const searchPath = req.query.path || '/'
   const physicalRootPath = path.join(__dirname, "../../../client")
   const physicalSearchPath = path.join(physicalRootPath, searchPath)
@@ -24,6 +24,43 @@ router.get('/sources', (req, res) => {
           }
         })
     return res.json(result)
+  })
+})
+
+router.get('/source_code', (req, res) => {
+  const filePath = req.query.path || '/'
+  const physicalRootPath = path.join(__dirname, "../../../client")
+  const physicalFilePath = path.join(physicalRootPath, filePath)
+  fs.readFile(physicalFilePath, 'utf8', (err, data) => {
+    if(err){
+      return res.json(err)
+    }
+    return res.json({
+      path: filePath,
+      code: data
+    })
+  })
+})
+
+router.post('/source_code', (req, res) => {
+  const filePath = req.query.path
+  const physicalRootPath = path.join(__dirname, "../../../client")
+  const physicalFilePath = path.join(physicalRootPath, filePath)
+  console.log(req.body.code)
+
+  let buffer = new Buffer(req.body.code, 'utf-8')
+  fs.open(physicalFilePath, 'w', (err, fd) => {
+    if(err) return res.json(err)
+
+    fs.write(fd, buffer, 0, buffer.length, null, (err) => {
+      if(err) return res.json(err)
+      fs.close(fd, (err) => {
+          if(err) return res.json(err)
+          console.log('file written');
+
+          return res.json({ path: filePath })
+      })
+    })
   })
 })
 

@@ -13,8 +13,8 @@ export default class TabButtonComponent extends React.Component {
 
     static propTypes = {
         title: PropTypes.string.isRequired,
-        handleTabButtonClose: PropTypes.func.isRequired,
-        handleTabButtonClick: PropTypes.func.isRequired,
+        tabButtonCloseCallback: PropTypes.func.isRequired,
+        tabButtonClickCallback: PropTypes.func.isRequired,
         active: PropTypes.bool.isRequired,
         id: PropTypes.number.isRequired,
         minimized: PropTypes.bool.isRequired,
@@ -24,11 +24,11 @@ export default class TabButtonComponent extends React.Component {
         title: "  ",
         active: false,
         minimized: false,
-        handleTabButtonClick(e){
-            console.log('click tab button: ', e)
+        tabButtonCloseCallback(index){
+            console.log('click tab button: ', index)
         },
-        handleTabButtonClose(e){
-            console.log('click tab close: ', e)
+        tabButtonClickCallback(index){
+            console.log('click tab close: ', index)
         }
     }
 
@@ -48,12 +48,12 @@ export default class TabButtonComponent extends React.Component {
         this.setState({ isHover: false })
     }
 
-    handleCloseClick = (e) => {
-        this.props.handleTabButtonClose(e)
+    handleCloseClick = () => {
+        this.props.tabButtonCloseCallback(this.props.id)
     }
 
-    handleClick = (e) => {
-        this.props.handleTabButtonClick(e, this.props.id)
+    handleClick = () => {
+        this.props.tabButtonClickCallback(this.props.id)
     }
 
     render() {

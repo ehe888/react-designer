@@ -4,7 +4,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import MainContainer, { LAYOUT_MODE_FULLSCREEN } from './MainContainer'
+import MainContainer, 
+    { LAYOUT_MODE_FULLSCREEN, 
+        LAYOUT_MODE_DEFAULT } from './projects/demo/containers/MainContainer'
 
 export default class RootContainer extends Component {
     state = { 
@@ -44,11 +46,16 @@ export default class RootContainer extends Component {
         } = this.state
 
         return (
-            <div>
+            <div style={{ 
+                    position: 'relative', 
+                    width: `${windowWidth}px`, 
+                    height: `${windowHeight}px`, 
+                    overflow: 'auto' }}>
                 <MainContainer 
                     windowWidth={windowWidth} 
-                    windowHeight={windowHeight} 
-                    layoutMode={LAYOUT_MODE_FULLSCREEN} />
+                    windowHeight={windowHeight}
+                    layoutMode={LAYOUT_MODE_DEFAULT}
+                  />
             </div>
         )
 

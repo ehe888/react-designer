@@ -7,11 +7,11 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
     entry: {
-        app: [ 'react-hot-loader/patch', 'webpack-hot-middleware/client?path=http://localhost:3000/client/__webpack_hmr', './client/index.js' ],
+        app: [ 'react-hot-loader/patch', 'webpack-hot-middleware/client?path=http://localhost:3000/client/__webpack_hmr', './client/index.jsx' ],
         vendor: [ 'lodash', 'react', 'react-dom']
     },
     externals: {
-        'codemirror': 'CodeMirror'
+        'socketcluster': 'socketCluster'
     },
     module: {
         rules: [
@@ -46,13 +46,10 @@ module.exports = {
             mobile: true,
             lang: 'zh-CN',
             links: [
-                'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/codemirror.min.css',
-                'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/theme/midnight.min.css',
                 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'
             ],
             scripts: [
-                'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/codemirror.min.js',
-                'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.30.0/mode/javascript/javascript.min.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/socketcluster-client/9.0.2/socketcluster.min.js'
             ]
         }),
 

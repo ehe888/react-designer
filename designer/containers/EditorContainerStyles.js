@@ -12,8 +12,10 @@ export default {
         padding: 0,
         overflow: 'hidden',
         pointerEvents: 'none',
+        zIndex: 9999999,
     },
     previewMode: {
-        opacity: 0
+        opacity: 0,
+        zIndex: -1
     }
 };

@@ -7,20 +7,18 @@ import _ from 'lodash'
 import { connect } from 'react-redux'
 import styles from './SourceCodeEditorContainerStyles'
 import TabHeaderComponent from '../components/dumb-tab'
+import { 
+    closeSourceEditor, 
+    switchSourceEditor, 
+    saveSourceCodeChanges,
+    requestToSaveSourceCodeChanges } from './SourceCodeEditorContainerActions'
 
-const demoFiles = [{
-                    name: 'Untitled-1',
-                    path: '',
-                    code: `// Source Code`
-                }]
-
-
+// TODO: Move config contants into separate config.js file
+// const SourceCodeEditorSavingInterval = 2000 //Save content delayed 3000ms of any change
 const SourceCodeEditorTabHeight = 24
 class SourceCodeEditorContainer extends React.Component {
     state = {
-        code: "// Source code",
         minimized: false,
-        activeId: 0,
     }
 
     static propTypes = {
@@ -29,8 +27,14 @@ class SourceCodeEditorContainer extends React.Component {
         height: PropTypes.number,
         editing: PropTypes.bool.isRequired,
         theme: PropTypes.string.isRequired,
-        syncing: PropTypes.bool.isRequired,
-        sourceFiles: PropTypes.array.isRequired,
+        openItems: PropTypes.array.isRequired,
+        sourceCode: PropTypes.object.isRequired,
+        activeIndex: PropTypes.number.isRequired,
+        closeSourceEditorAction: PropTypes.func,
+        switchSourceEditorAction: PropTypes.func,
+        saveSourceCodeChangesAction: PropTypes.func,
+        requestToSaveSourceCodeChangesAction: PropTypes.func,
+        syncing: PropTypes.array
     }
 
     static defaultProps = {
@@ -38,32 +42,40 @@ class SourceCodeEditorContainer extends React.Component {
         width: 640,
         height: 480,
         theme: 'midnight',
-        syncing: false,
-        sourceFiles: demoFiles,
-    }
-
-    componentDidMount(){
-        const { width, height } = this.props;
-        if(this.codeMirror){
-            this.codeMirror.setSize(width, height-SourceCodeEditorTabHeight);
+        openItems: [ 'Untitled-1' ],
+        syncing: [],
+        activeIndex: 0,
+        sourceCode: {
+            'Untitled-1': '// Code'
         }
     }
 
-    componentDidUpdate(prevProps){
-        if(this.props.syncing && this.props.syncing !== prevProps.syncing){
-            console.log(this.codeMirror.getValue())
+    componentDidMount(){
+        const { width, 
+            height } = this.props;
+        if(this.codeMirror){
+            this.codeMirror.setSize(width, height-SourceCodeEditorTabHeight);
+            this.codeMirror.setOption("extraKeys", {
+                Tab: function(cm) {
+                  var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+                  cm.replaceSelection(spaces);
+                }
+              })
         }
     }
 
     refToCodeMirror = (ref) => {
-        this.codeMirror = ref.getCodeMirror()
+        if(ref) this.codeMirror = ref.getCodeMirror()
     }
 
-    tabSelectCallback = (id, prevId) => {
-        if( id !== this.state.activeId ){
-            this.setState(() => {
-                return { activeId: id }
-            })
+    tabSelectCallback = (index) => {
+        // Switch tab
+        this.props.switchSourceEditorAction(index)
+    }
+
+    tabCloseCallback = (index) => {
+        if(index >=0 && index < this.props.openItems.length){
+            this.props.closeSourceEditorAction(index)
         }
     }
 
@@ -79,32 +91,85 @@ class SourceCodeEditorContainer extends React.Component {
         }
     }
 
+    handleKeyDown = (event) => {
+        const { openItems, activeIndex, syncing } = this.props
+        const keyName = event.key
+        if(keyName === 'Control'){
+            return;
+        }
+        if(event.ctrlKey || event.metaKey){
+            switch(keyName){
+                case 's':
+                {
+                    // turn off anoying Chrome "Save to file" popup window
+                    event.preventDefault()
+                    const path = openItems[activeIndex]
+                    if( syncing.indexOf(path) < 0 ){
+                        this.props.saveSourceCodeChangesAction(path)
+                    }   
+                    return
+                }
+                default:
+                    return
+            }
+            
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        window.addEventListener('keydown', this.handleKeyDown)
+
+        const { width, height, openItems, activeIndex, sourceCode, syncing } = this.props
+        if(this.codeMirror){
+            this.codeMirror.setSize(width, height-SourceCodeEditorTabHeight);
+            //this.codeMirror.setValue(`${sourceCode[openItems[activeIndex]]}`)
+            const doc = sourceCode[openItems[activeIndex]]
+            if(doc && doc !== this.codeMirror.getDoc()){
+                this.codeMirror.swapDoc(doc)
+            }
+        }
+
+        const toSync = _.difference(syncing, prevProps.syncing)
+        if(!_.isEmpty(toSync)){
+            toSync.map((value) => {
+                this.props.requestToSaveSourceCodeChangesAction(value, sourceCode[value].getValue())
+            })
+        }
+        
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('keydown', this.handleKeyDown)
+    }
+
     render() {
-        const { theme, width, height, sourceFiles } = this.props
-        const { minimized, activeId } = this.state
+        const { theme, width, height, openItems, activeIndex } = this.props
+        const { minimized } = this.state
         const options = {
             lineNumbers: true,
-            mode: "javascript",
-            theme: theme
+            mode: "jsx",
+            theme: theme,
+            gutters: ["CodeMirror-lint-markers"],
+            lint: true
         };
         const containerHeight = minimized ? SourceCodeEditorTabHeight : height
         const containerWidth = minimized ? 64 : width
         
-        if(this.codeMirror){
-            this.codeMirror.setSize(width, height-SourceCodeEditorTabHeight);
-            this.codeMirror.setValue(sourceFiles[activeId].code)
-        }
+        
 
         return (
             <div style={ _.merge({}, styles.main, { width: `${containerWidth}px`, height: `${containerHeight}px` }) }>
                 <TabHeaderComponent 
                     tabSelectCallback={this.tabSelectCallback}
                     minimizeCallback={this.minimizeCallback}
+                    tabCloseCallback={this.tabCloseCallback}
                     minimized={minimized}
-                    items={sourceFiles} />
-                { this.props.sourceFiles.length > 0 &&
+                    activeIndex={activeIndex}
+                    titleRenderer={ (title) =>  title.substring(title.lastIndexOf('/')+1) }
+                    items={openItems} />
+                { openItems.length > 0 && openItems[activeIndex] &&
                     <CodeMirror ref={this.refToCodeMirror} 
-                        value={this.state.code} options={{...options, ...this.props.options}} />
+                        options={{...options, ...this.props.options}} />
                 }
             </div>
         );
@@ -113,8 +178,21 @@ class SourceCodeEditorContainer extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        syncing: state.sourceCodeEditor ? state.sourceCodeEditor.syncing : false
+        openItems: state.sourceCodeEditor ? state.sourceCodeEditor.openItems : [ 'Untitled-1' ],
+        activeIndex: state.sourceCodeEditor ? state.sourceCodeEditor.activeIndex : 0,
+        sourceCode: state.sourceCodeEditor ? state.sourceCodeEditor.sourceCode : { 'Untitled-1': window.CodeMirror.Doc(' // Code') },
+        syncing: state.sourceCodeEditor ? state.sourceCodeEditor.syncing : [],    
     }
 }
 
-export default connect(mapStateToProps, null)(SourceCodeEditorContainer)
+const mapDispatchToProps = (dispatch) => {
+    return {
+        closeSourceEditorAction: (index) => dispatch(closeSourceEditor(index)),
+        switchSourceEditorAction: (index) => dispatch(switchSourceEditor(index)),
+        saveSourceCodeChangesAction: (path) => dispatch(saveSourceCodeChanges(path)),
+        requestToSaveSourceCodeChangesAction: (path, code) => 
+                            dispatch(requestToSaveSourceCodeChanges(path, code))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SourceCodeEditorContainer)

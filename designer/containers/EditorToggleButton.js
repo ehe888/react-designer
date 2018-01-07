@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import styles from './EditorToggleButtonStyles'
 import { toggleEditing } from './EditorToggleButtonActions'
-import { startSyncing } from './SourceCodeEditorContainerActions'
 
 class EditorToggleButton extends Component {
     static propTypes = {
@@ -37,7 +36,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        toggleEditingAction: () => { dispatch(toggleEditing()); dispatch(startSyncing()) }
+        toggleEditingAction: () => { dispatch(toggleEditing()) }
     }
 }
 

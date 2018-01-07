@@ -1,9 +1,10 @@
 // index.js 
 // Server side api calls
-import { queryParameters } from './fetch'
+import { queryParameters, fetchJson } from './fetch'
 
 const RESOURCE_ROUTE = {
-    SOURCES: 'sources'
+    SOURCE_DIRECTORY: 'directory',
+    SROUCE_CODE: 'source_code'
 }
 
 function getApiUrl(route, parameters){
@@ -13,24 +14,21 @@ function getApiUrl(route, parameters){
 }
 
 
-export const fetchSourceFiles = (path) => {
-    return fetch(getApiUrl(RESOURCE_ROUTE.SOURCES, { path }))
-        .then(response => response.text().then(text => ({
-            status: response.status,
-            statusText: response.statusText,
-            headers: response.headers,
-            body: text,
-        })))
-        .then(({ status, statusText, headers, body }) => {
-            let json;
-            try {
-                json = JSON.parse(body);
-            } catch (e) {
-                // not json, no big deal
-            }
-            if (status < 200 || status >= 300) {
-                return Promise.reject(new HttpError((json && json.message) || statusText, status));
-            }
-            return { status, headers, body, json };
-        });
+export const fetchSourceDirectory = (path) => {
+    return fetchJson(getApiUrl(RESOURCE_ROUTE.SOURCE_DIRECTORY, { path }))
+}
+
+export const fetchSourceCode = (path) => {
+    return fetchJson(getApiUrl(RESOURCE_ROUTE.SROUCE_CODE, { path }))
+}
+
+export const saveSourceCode = (path, code) => {
+    // let formData = new FormData()
+    // formData.append("code", code)
+    return fetchJson(getApiUrl(
+                RESOURCE_ROUTE.SROUCE_CODE, { path }),
+                {
+                    method: 'POST',
+                    body: JSON.stringify({ "code": code })
+                })
 }

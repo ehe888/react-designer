@@ -118,7 +118,9 @@ export default class NavigatorContainer extends React.Component {
 
         return (
             <div style={_.merge({}, styles.main, { width: `${width}px` })}>
+                <div style={styles.naviContent}>
                 {this.props.items[activeItemIndex].component}
+                </div>
                 <ul style={styles.naviList}>
                     {items}
                 </ul>

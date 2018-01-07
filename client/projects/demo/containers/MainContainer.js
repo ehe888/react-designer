@@ -6,6 +6,8 @@ import styles from './MainContainerStyles'
 import _ from 'lodash'
 import HelloWorldComponent from '../components/HelloWorldComponent'
 
+require('../assets/css/global.css')
+
 export const LAYOUT_MODE_FULLSCREEN = 'fullScreen'
 export const LAYOUT_MODE_DEFAULT = 'default'
 
@@ -40,10 +42,29 @@ export default class MainContainer extends Component {
 
     render(){
         return (
-            <div style={_.merge({}, styles.main, this.isFullScreenMode() && styles.fullScreen)}
+            <div style={_.merge({}, styles.main, this.isFullScreenMode() && styles.fullScreen )}
                 onMouseOver={this.handleMouseOver} 
                 onMouseLeave={this.handleMouseLeave}>
+              <div style={{ position: 'relative', overflow: 'auto' }} >
                 <HelloWorldComponent />
+                <HelloWorldComponent />
+                <HelloWorldComponent />
+                <HelloWorldComponent />
+                <HelloWorldComponent />
+                <HelloWorldComponent />
+                <HelloWorldComponent />
+                <HelloWorldComponent />
+                <HelloWorldComponent />
+                <HelloWorldComponent />
+                <HelloWorldComponent />
+                <HelloWorldComponent />
+                <HelloWorldComponent />
+                <HelloWorldComponent />
+                <HelloWorldComponent />
+                <HelloWorldComponent />
+                <HelloWorldComponent />
+                <HelloWorldComponent />
+              </div>
             </div>
         )
     }
