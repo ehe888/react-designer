@@ -1,5 +1,4 @@
-// EditorContainerStyles.js
-// Naming convention: {Container} + Styles.js
+
 export default {
     main: {
         position: 'absolute',

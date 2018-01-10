@@ -3,10 +3,9 @@ import React from "react"
 import ReactDOM from "react-dom"
 import socketCluster from 'socketcluster'
 import { AppContainer } from "react-hot-loader"
-import RootContainer from './RootContainer'
+import RootContainer from './RootContainer' // Use webpack module resolver to support relative path search
 
 require('normalize.css')
-
 
 /**
  * Search a React Component by dom element wrapped

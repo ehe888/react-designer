@@ -9,7 +9,10 @@ const DESIGNER_PATH = "designer"
 
 module.exports = {
     entry: {
-        app: [ 'react-hot-loader/patch', `webpack-hot-middleware/client?path=http://localhost:3000/${DESIGNER_PATH}/__webpack_hmr`, `./${DESIGNER_PATH}/index.js` ],
+        app: [ 
+            'react-hot-loader/patch', 
+            `webpack-hot-middleware/client?path=http://localhost:3000/${DESIGNER_PATH}/__webpack_hmr`, 
+            `./${DESIGNER_PATH}/index.js` ],
         vendor: [ 'lodash', 'react', 'react-dom'],
     },
     externals: {

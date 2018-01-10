@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import styles from './MainContainerStyles'
 import _ from 'lodash'
 import HelloWorldComponent from '../components/HelloWorldComponent'
+import HelloComponent from 'lib/hello/HelloComponent'
 
 require('../assets/css/global.css')
 
@@ -52,18 +53,7 @@ export default class MainContainer extends Component {
                 <HelloWorldComponent />
                 <HelloWorldComponent />
                 <HelloWorldComponent />
-                <HelloWorldComponent />
-                <HelloWorldComponent />
-                <HelloWorldComponent />
-                <HelloWorldComponent />
-                <HelloWorldComponent />
-                <HelloWorldComponent />
-                <HelloWorldComponent />
-                <HelloWorldComponent />
-                <HelloWorldComponent />
-                <HelloWorldComponent />
-                <HelloWorldComponent />
-                <HelloWorldComponent />
+                <HelloComponent />
               </div>
             </div>
         )

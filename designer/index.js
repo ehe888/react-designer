@@ -29,8 +29,8 @@ window.FindReact = function(dom) {
 };
 
 const sagaMiddleware = createSagaMiddleware()
-let store = createStore(designerReducers,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+let store = createStore(designerReducers, 
+    /* window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(), */
     applyMiddleware(sagaMiddleware))
 
 sagaMiddleware.run(mySaga)

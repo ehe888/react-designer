@@ -5,17 +5,21 @@ export default {
         position: 'absolute',
         width: '100%',
         height: '100%',
-        top: 0,
+        top: '2.2em',
         left: 0,
-        background: 'rgba(51,51,51,0)',
+        background: '#f6f7f8',
         margin: 0,
         padding: 0,
         overflow: 'hidden',
-        pointerEvents: 'none',
         zIndex: 9999999,
     },
     previewMode: {
         opacity: 0,
         zIndex: -1
+    },
+    centralContent: {
+        position: 'absolute',
+        height: '100%',
+        top: 0
     }
 }

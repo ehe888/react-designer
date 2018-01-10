@@ -15,8 +15,9 @@ designerApp.use(webpackDevMiddleware(compiler, {
 
 designerApp.use(require("webpack-hot-middleware")(compiler))
 
+/** Client app config */
 const clientApp = express()
-const customWebpackConfig = require("../webpack.client.dev.config.js")
+const customWebpackConfig = require("../client/cryptoexchange/webpack.dev.config.js")
 const customCompiler = webpack(customWebpackConfig)
 
 clientApp.use(webpackDevMiddleware(customCompiler, {
@@ -24,7 +25,7 @@ clientApp.use(webpackDevMiddleware(customCompiler, {
 }))
 
 clientApp.use(require("webpack-hot-middleware")(customCompiler))
-
+/** end of client app config */
 
 const rootApp = express()
 
