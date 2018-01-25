@@ -22,20 +22,38 @@ const PAIR_EXCHANGE_RATE = [
     }]
 
 
-    const columns = [{
-        Header: 'Pair',
-        accessor: 'market', // String-based value accessors!
-        maxWidth: 60,
-      }, {
-        Header: 'Price',
-        accessor: 'last_trade',
-        maxWidth: 120,
-        Cell: (props) => <span className='number'>{props.value}</span> // Custom cell components!
-      }, {
-        Header: 'Change',
-        accessor: 'change',
-        maxWidth: 80,
-        Cell: (row) => {
+    
+class TickerContainer extends React.Component {
+    static propTypes = {
+        data: PropTypes.array.isRequired,
+        pairFilter: PropTypes.string
+    }
+
+    static defaultProps = {
+        data: [],
+        pairFilter: ""
+    }
+
+    render() {
+        const { data, pairFilter } = this.props
+        
+
+        const columns = [{
+          Header: 'Pair',
+          accessor: 'market', // String-based value accessors!
+          maxWidth: 60
+        }, {
+          Header: 'Price',
+          accessor: 'last_trade',
+          filterable: false,
+          maxWidth: 120,
+          Cell: (props) => <span className='number'>{props.value}</span> // Custom cell components!
+        }, {
+          Header: 'Change',
+          accessor: 'change',
+          maxWidth: 80,
+          filterable: false,
+          Cell: (row) => {
                 return (
                     <span>
                         <span style={{
@@ -50,31 +68,26 @@ const PAIR_EXCHANGE_RATE = [
                     </span>
                 )
             }
-      }]
+        }]
 
-class TickerContainer extends React.Component {
-    static propTypes = {
-        data: PropTypes.array.isRequired
-    }
-
-    static defaultProps = {
-        data: []
-    }
-
-    render() {
-        const { data } = this.props
         return (
             <ReactTable
                 data={data}
                 columns={columns}
                 defaultPageSize={100}
                 showPagination={false}
+                filterable
+                defaultFilterMethod={(filter, row) => { 
+                    return (String(row['market']).indexOf(filter.value) >= 0) &&
+                    (String(row['market']).indexOf(pairFilter) >= 0)
+                }}
                 className="-striped -highlight"
                 style={{ 
                     fontSize: '0.75em',
                     fontFamily: '"HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif',
                     fontWeight: 300,
                     height: '100%',
+                    border: 'none',
                 }}
                 getTdProps={() => {
                     return {
@@ -91,9 +104,12 @@ class TickerContainer extends React.Component {
 }
 
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, prevProps) => {
     return {
-        data: state.app.exchange && state.app.exchange.ticker 
+        data: state.app.exchange && state.app.exchange.ticker &&
+                state.app.exchange.ticker.filter(value => {
+                    return value.market.endsWith(prevProps.pairFilter)
+                }) 
     }
 }
 

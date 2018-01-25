@@ -2,7 +2,11 @@
 // index for all reducers
 import { combineReducers } from 'redux'
 import _ from 'lodash'
-import { TICKER_UPDATED } from '../actions'
+import { 
+    TICKER_UPDATED,
+    LOGIN_FORM_FAILURE,
+    LOGIN_FORM_SUCCESS, 
+    } from '../actions'
 
 
 const initialState = { 
@@ -13,7 +17,7 @@ const initialState = {
 
 function accountReducer(state = initialState, action){
     switch(action.type){
-        case 'LOGIN_FORM_SUCCESS':{
+        case LOGIN_FORM_SUCCESS: {
             const { success, payload } = action.payload
             if(success && payload.accessToken){
               return _.merge({}, state, { 
@@ -25,6 +29,18 @@ function accountReducer(state = initialState, action){
             }else{
               return state
             }
+        }
+        case LOGIN_FORM_FAILURE: {
+            //If login failed, the payload contains error message and error status
+            const { message, status } = action.payload.error
+            //TODO: popup error message
+            return _.merge({}, state, {
+                authenticated: false,
+                error: {
+                    status: status,
+                    message: message
+                }
+            })
         }
         default:
             return state

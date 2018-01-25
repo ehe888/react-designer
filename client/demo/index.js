@@ -52,20 +52,23 @@ socket.on('rand', function (data) {
 });
 
 
-
-const render = (Component) => {
-    ReactDOM.render(
-        <AppContainer>
-                <Component />
-        </AppContainer>,
-        document.getElementById('app')
-    )
+window.onload = function() {
+    const render = (Component) => {
+        ReactDOM.render(
+            <AppContainer>
+                    <Component />
+            </AppContainer>,
+            document.getElementById('app')
+        )
+    }
+    
+    render(RootContainer)
+    
+    if(module.hot){
+        module.hot.accept('./RootContainer', () => {
+           render(RootContainer);
+        })
+    }
 }
 
-render(RootContainer)
 
-if(module.hot){
-    module.hot.accept('./RootContainer', () => {
-       render(RootContainer);
-    })
-}

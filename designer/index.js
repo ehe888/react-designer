@@ -29,7 +29,11 @@ window.FindReact = function(dom) {
 };
 
 const sagaMiddleware = createSagaMiddleware()
-let store = createStore(designerReducers, 
+let store = createStore(designerReducers, {
+        root: {
+            editing: false
+        }
+    },
     /* window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(), */
     applyMiddleware(sagaMiddleware))
 

@@ -40,7 +40,7 @@ class RootContainer extends Component {
 
     static defaultProps = {
         title: 'Reactjs Designer',
-        editing: true
+        editing: false
     }
 
     handleResize = () => {

@@ -13,8 +13,10 @@ import mySaga from './sagas'
 import reducers from './reducers'
 import socketCluster  from 'socketcluster-client'
 import { tickerUpdate } from './actions'
+import Fingerprint2 from 'fingerprintjs2'
 
-require('normalize.css')
+
+// require('normalize.css')
 require('purecss')
 require('./assets/css/global.css')
 
@@ -51,7 +53,6 @@ window.FindReact = function(dom) {
     return null;
 }
 
-
 const render = (Component) => {
     ReactDOM.render(
         <AppContainer>
@@ -64,13 +65,13 @@ const render = (Component) => {
 
     //Listen to ws sockert for tikers
     const socket = socketCluster.connect({
-        port: 443,
+        port: 80,
         hostname: 'ws.hedingwen.com',
-        secure: true,
+        secure: false,
         rejectUnauthorized: false // Only necessary during debug if using a self-signed certificate
     });
     socket.on('connect', function () {
-        console.log('CONNECTED');
+        console.log('WSS CONNECTED');
 
         var tickerChannel = socket.subscribe('ticker');
 
@@ -82,12 +83,35 @@ const render = (Component) => {
             store.dispatch(tickerUpdate(message))
         });
     });
-}
 
-render(RootContainer)
-
-if(module.hot){
-    module.hot.accept('./RootContainer', () => {
-       render(RootContainer);
+    socket.on('error', function(){
+        console.log(arguments);
     })
 }
+const fp = new Fingerprint2(); 
+fp.get((result, components) => {
+    console.log(result); //a hash, representing your device fingerprint
+
+    // TODO: Compare finger print with server side stored value to detect user agent change
+
+    render(RootContainer)
+    
+    if(module.hot){
+        module.hot.accept('./RootContainer', () => {
+        render(RootContainer);
+        })
+    }
+})
+
+// window.onload = function() {
+//     setTimeout(
+//         () => {
+//             render(RootContainer)
+//             if(module.hot){
+//                 module.hot.accept('./RootContainer', () => {
+//                 render(RootContainer);
+//                 })
+//             }
+//         }, 250)
+// }
+

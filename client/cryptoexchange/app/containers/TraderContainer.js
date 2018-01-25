@@ -7,6 +7,7 @@ import _ from 'lodash'
 import styles from './TraderContainerStyles'
 import NavigatorContainer from './NavigatorContainer'
 import CandleStickContainer from './CandleStickContainer'
+import AskAndBidContainer from './AskAndBidContainer'
 
 
 const navigatorWidth = 320
@@ -30,6 +31,11 @@ class TraderContainer extends Component {
                         left: `${navigatorWidth}px`,
                         width: `${boxWidth - navigatorWidth - rightPanelWidth }px` }}>
                     <CandleStickContainer />
+                </div>
+                <div style={{ ...styles.centralContent, 
+                        right: `0px`,
+                        width: `${rightPanelWidth}px` }} >
+                    <AskAndBidContainer boxWidth={rightPanelWidth} boxHeight={boxHeight} />
                 </div>
             </div>
         )

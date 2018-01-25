@@ -4,7 +4,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
-import MainContainer, { LAYOUT_MODE_DEFAULT } from './containers/MainContainer'
+import MainContainer from './containers/MainContainer'
 
 export default class RootContainer extends Component {
     state = { 

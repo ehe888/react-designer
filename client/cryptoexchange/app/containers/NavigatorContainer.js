@@ -68,19 +68,19 @@ class NavigatorItem extends React.Component {
 
 const NAVI_ITEMS = [
     {
-        name: 'realTimeExchangeRate',
-        icon: 'files-o',
-        component: <TickerContainer />
+        name: 'bitcoin',
+        icon: 'bitcoin',
+        component: <TickerContainer pairFilter={"/BTC"} />
     },
     {
-        name: 'accountBalance',
-        icon: 'cogs',
-        component: <h3>Account Balance</h3>
+        name: 'ethereum',
+        icon: 'diamond',
+        component: <TickerContainer pairFilter={"/ETH"} />
     },
     {
-        name: 'watchList',
-        icon: 'server',
-        component: <h3>watchList</h3>
+        name: 'USDT',
+        icon: 'dollar',
+        component: <TickerContainer pairFilter={"/USDT"} />
     }
 ]
 

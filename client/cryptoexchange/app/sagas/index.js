@@ -1,5 +1,10 @@
 import { call, put, takeEvery, takeLatest, select } from 'redux-saga/effects'
 
+import { 
+    LOGIN_FORM_FAILURE,
+    LOGIN_FORM_SUCCESS, 
+    LOGIN_FORM_SUBMIT,
+    } from '../actions'
 
 import { 
     accountLogin
@@ -41,15 +46,17 @@ import {
 function* loginFormSubmit (action) {
     try {
         const response = yield call(accountLogin, action.payload);
-        yield put({type: 'LOGIN_FORM_SUCCESS', payload: response.json});
+        
+        yield put({type: LOGIN_FORM_SUCCESS, payload: response.json});
     } catch (err) {
-        yield put({type: 'LOGIN_FORM_FAILURE', payload: {_error: err.message}});
+        const { message, status } = err
+        yield put({type: LOGIN_FORM_FAILURE, payload: { _error: message, error: { message, status } }});
     }
 }
   
 
 function* mySaga() {
-    yield takeLatest('LOGIN_FORM_SUBMIT', loginFormSubmit)
+    yield takeLatest(LOGIN_FORM_SUBMIT, loginFormSubmit)
 }
 
 export default mySaga
